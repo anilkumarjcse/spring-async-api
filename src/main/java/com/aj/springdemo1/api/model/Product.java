@@ -32,6 +32,15 @@ public class Product {
     int id;
     private String trackingNum;
 
+    public String getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    private String errorCode;
 
 
 }

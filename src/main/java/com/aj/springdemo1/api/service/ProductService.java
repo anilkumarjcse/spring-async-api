@@ -29,11 +29,12 @@ public class ProductService {
         return product != null && product.getId() == existingProduct;
     }
 
-    public void payOrder(Product product) throws InterruptedException {
+    public boolean payOrder(Product product) throws InterruptedException {
 
         logger.info("Payment service is started ");
         Thread.sleep(5000L);
         logger.info("Payment service is done ");
+        return true;
     }
 
     public Product processProduct(Product product) throws InterruptedException {
@@ -41,10 +42,17 @@ public class ProductService {
         //Check the availability of the product
         if (checkProductAvailability(product)){
             //Proceed for payment
-            payOrder(product);
-            product.setTrackingNum(generateTrackingNumber(product));
+            boolean isSuccess = payOrder(product);
+            if (isSuccess) {
+                product.setTrackingNum(generateTrackingNumber(product));
+            } else {
+                product.setErrorCode(generateTrackingNumber(product));
+            }
+
+
         } else {
             logger.info("Unable get the product availability!!!");
+            product.setErrorCode(generateTrackingNumber(product));
         }
         return product;
     }
